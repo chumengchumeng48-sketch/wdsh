@@ -91,8 +91,11 @@ function sendMessage() {
         loadingElement.style.display = 'block';
     }
 
-    const apiKey = 'sk-7891c0a7510e47de83a0560bfc942f0a';
-    const endpoint = 'https://api.deepseek.com/chat/completions';
+// --- 将上面删除的代码替换成以下内容 ---
+
+    // 这是您在 Vercel 上部署的代理服务器地址
+    const proxyEndpoint = 'https://wdsh.vercel.app/api/chat';
+    // 请将上面的网址替换成您实际部署后得到的地址
 
     const payload = {
         model: "deepseek-chat",
@@ -103,14 +106,16 @@ function sendMessage() {
         stream: false
     };
 
-    fetch(endpoint, {
+    // 发送请求到代理服务器，而不是直接发送到 DeepSeek
+    fetch(proxyEndpoint, {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${apiKey}`
+            'Content-Type': 'application/json'
+            // 注意：这里不再需要 'Authorization' 请求头，因为代理服务器会处理
         },
         body: JSON.stringify(payload)
     })
+
     .then(response => response.json())
     .then(data => {
         // 隐藏加载动画
